@@ -1,130 +1,196 @@
-<!DOCTYPE html><html lang="th">  <head>  
-  <meta charset="UTF-8" />  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
-  <title>เว็บไซต์ดาวน์โหลดเกม</title>  
-  <link rel="manifest" href="manifest.json">  
-  <script src="sw-register.js" defer></script>  
-  <script src="https://cdn.tailwindcss.com"></script>  
-  <style>  
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');  
-    body {  
-      font-family: 'Orbitron', sans-serif;  
-    }  
-    .active {  
-      color: #9333ea;  
-    }  
-    .carousel {  
-      display: flex;  
-      overflow-x: auto;  
-      scroll-snap-type: x mandatory;  
-    }  
-    .carousel::-webkit-scrollbar {  
-      display: none;  
-    }  
-    .carousel-item {  
-      flex: none;  
-      width: 80%;  
-      scroll-snap-align: start;  
-      margin-right: 1rem;  
-    }  
-  </style>  
-</head>  
-<body class="bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white min-h-screen flex flex-col">  
-  <!-- Header -->  
-  <header class="flex items-center justify-between p-4 bg-black shadow-md">  
-    <button id="menu-toggle" class="text-white text-2xl">☰</button>  
-    <h1 class="text-xl font-bold text-center w-full">หน้าหลัก</h1>  
-    <img src="logo.png" alt="Logo" class="w-8 h-8" />  
-  </header>  <!-- Sliโหลดเกมส์o -->  <div class="bg-purple-900 text-center py-2 text-sm animate-pulse">  
-   โหลดเกมส์ เพื่อสร้าpromoiv>  <!-- Main Content -->  <main id="page-content" class="flex-1 p-4 overflow-auto">  
-    <!-- Content will be injected here -->  
-  </main>  <!-- Bottom Nav -->  <nav class="bg-black flex justify-around p-2 border-t border-gray-700 text-sm">  
-    <button class="nav-btn flex flex-col items-center" data-page="home">  
-      <img src="home-icon.png" alt="Home" class="w-6 h-6" />  
-      <span class="text-xs">หน้าหลัก</span>  
-    </button>  
-    <button class="nav-btn flex flex-col items-center" data-page="search">  
-      <img src="search-icon.png" alt="Search" class="w-6 h-6" />  
-      <span class="text-xs">ค้นหา</span>  
-    </button>  
-    <button class="nav-btn flex flex-col items-center" data-page="account">  
-      <img src="account-icon.png" alt="Account" class="w-6 h-6" />  
-      <span class="text-xs">บัญชี</span>  
-    </button>  
-  </nav>  <script>  
-    const gameList = [  
-      { name: "ROV", image: "game1.jpg" },  
-      { name: "Free Fire", image: "game2.jpg" },  
-      { name: "PUBG", image: "game3.jpg" },  
-      { name: "Genshin Impact", image: "game4.jpg" },  
-      { name: "Valorant", image: "game5.jpg" },  
-      { name: "Minecraft", image: "game6.jpg" },  
-      { name: "Call of Duty", image: "game7.jpg" },  
-      { name: "League of Legends", image: "game8.jpg" },  
-      { name: "Fortnite", image: "game9.jpg" }  
-    ];  const pages = {  
-  home: `  
-    <h2 class="text-2xl mb-4">เกมแนะนำ</h2>  
-    <div class="carousel mb-4">  
-      <a href="#" class="carousel-item"><img src="game1.jpg" class="rounded-xl" alt="Game 1"></a>  
-      <a href="#" class="carousel-item"><img src="game2.jpg" class="rounded-xl" alt="Game 2"></a>  
-      <a href="#" class="carousel-item"><img src="game3.jpg" class="rounded-xl" alt="Game 3"></a>  
-    </div>  
-  `,  
-  search: `  
-    <h2 class="text-2xl mb-4">ค้นหาเกม</h2>  
-    <input type="text" id="searchInput" placeholder="พิมพ์ชื่อเกม..." class="w-full p-2 rounded-lg text-black mb-4" />  
-    <div id="searchResults" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>  
-  `,  
-  account: `  
-    <h2 class="text-2xl mb-4">บัญชีของฉัน</h2>  
-    <ul class="space-y-2">  
-      <li class="bg-gray-900 p-3 rounded-lg">ที่อยู่ของฉัน</li>  
-      <li class="bg-gray-900 p-3 rounded-lg">เพิ่มที่อยู่</li>  
-      <li class="bg-gray-900 p-3 rounded-lg">ความช่วยเหลือ</li>  
-      <li class="bg-gray-900 p-3 rounded-lg">ดาวน์โหลดแอป</li>  
-      <li class="bg-gray-900 p-3 rounded-lg">อัปโหลดอื่นๆ</li>  
-    </ul>  
-  `  
-};  
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เว็บไซต์ดาวน์โหลดเกม</title>
+  <link rel="manifest" href="manifest.json">
+  <script src="sw-register.js" defer></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+    body {
+      font-family: 'Orbitron', sans-serif;
+    }
+    .active {
+      color: #9333ea;
+    }
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+    }
+    .carousel::-webkit-scrollbar {
+      display: none;
+    }
+    .carousel-item {
+      flex: none;
+      width: 80%;
+      scroll-snap-align: start;
+      margin-right: 1rem;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="flex items-center justify-between p-4 bg-black shadow-md">
+    <button id="menu-toggle" class="text-white text-2xl">☰</button>
+    <h1 class="text-xl font-bold text-center w-full">หน้าหลัก</h1>
+    <img src="logo.png" alt="Logo" class="w-8 h-8" />
+  </header>
 
-const contentEl = document.getElementById('page-content');  
-const navBtns = document.querySelectorAll('.nav-btn');  
+  <!-- Main Content -->
+  <main id="page-content" class="flex-1 p-4 overflow-auto">
+    <h2 class="text-2xl mb-4">เกมแนะนำ</h2>
 
-function loadPage(page) {  
-  contentEl.innerHTML = pages[page];  
-  navBtns.forEach(btn => btn.classList.remove('active'));  
-  document.querySelector(`[data-page="${page}"]`).classList.add('active');  
+    <!-- Carousel Section -->
+    <div class="relative">
+      <div class="carousel mb-4 overflow-hidden">
+        <div class="carousel-item">
+          <a href="https://play.google.com/store/apps/details?id=com.example.game1" target="_blank">
+            <img src="image1.jpg" alt="Game 1" class="w-full rounded-xl">
+          </a>
+        </div>
+        <div class="carousel-item">
+          <a href="https://play.google.com/store/apps/details?id=com.example.game2" target="_blank">
+            <img src="image2.jpg" alt="Game 2" class="w-full rounded-xl">
+          </a>
+        </div>
+        <div class="carousel-item">
+          <a href="https://play.google.com/store/apps/details?id=com.example.game3" target="_blank">
+            <img src="image3.jpg" alt="Game 3" class="w-full rounded-xl">
+          </a>
+        </div>
+      </div>
+      <!-- Optional navigation dots -->
+      <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2">
+        <span class="w-3 h-3 bg-white rounded-full cursor-pointer"></span>
+        <span class="w-3 h-3 bg-white rounded-full cursor-pointer"></span>
+        <span class="w-3 h-3 bg-white rounded-full cursor-pointer"></span>
+      </div>
+    </div>
 
-  if (page === 'search') {  
-    const resultsEl = document.getElementById('searchResults');  
-    const inputEl = document.getElementById('searchInput');  
+    <!-- Game Grid -->
+    <div class="grid grid-cols-3 gap-4 mb-4">
+      ${gameList.slice(0, 6).map(game => `
+        <a href="${game.link}" target="_blank" class="block bg-gray-900 p-2 rounded-lg hover:bg-gray-800 transition">
+          <img src="${game.image}" alt="${game.name}" class="w-full rounded mb-2">
+          <h3 class="text-center text-sm">${game.name}</h3>
+        </a>
+      `).join('')}
+    </div>
+  </main>
 
-    const renderResults = (query = '') => {  
-      const filtered = gameList.filter(game => game.name.toLowerCase().includes(query.toLowerCase()));  
-      resultsEl.innerHTML = filtered.map(game => `  
-        <div class="bg-gray-900 p-2 rounded-lg">  
-          <img src="${game.image}" alt="${game.name}" class="w-full rounded mb-2">  
-          <h3 class="text-center text-sm">${game.name}</h3>  
-        </div>  
-      `).join('');  
-    };  
+  <!-- Bottom Nav -->
+  <nav class="bg-black flex justify-around p-2 border-t border-gray-700 text-sm">
+    <button class="nav-btn flex flex-col items-center" data-page="home">
+      <img src="home-icon.png" alt="Home" class="w-6 h-6" />
+      <span class="text-xs">หน้าหลัก</span>
+    </button>
+    <button class="nav-btn flex flex-col items-center" data-page="search">
+      <img src="search-icon.png" alt="Search" class="w-6 h-6" />
+      <span class="text-xs">ค้นหา</span>
+    </button>
+    <button class="nav-btn flex flex-col items-center" data-page="account">
+      <img src="account-icon.png" alt="Account" class="w-6 h-6" />
+      <span class="text-xs">บัญชี</span>
+    </button>
+  </nav>
 
-    inputEl.addEventListener('input', e => renderResults(e.target.value));  
-    renderResults();  
-  }  
-}  
+  <script>
+    const gameList = [
+      { name: "ROV", image: "game1.jpg", link: "https://play.google.com/store/apps/details?id=com.example.ROV" },
+      { name: "Free Fire", image: "game2.jpg", link: "https://play.google.com/store/apps/details?id=com.example.freefire" },
+      { name: "PUBG", image: "game3.jpg", link: "https://play.google.com/store/apps/details?id=com.example.pubg" },
+      { name: "Genshin Impact", image: "game4.jpg", link: "https://play.google.com/store/apps/details?id=com.example.genshin" },
+      { name: "Valorant", image: "game5.jpg", link: "https://play.google.com/store/apps/details?id=com.example.valorant" },
+      { name: "Minecraft", image: "game6.jpg", link: "https://play.google.com/store/apps/details?id=com.example.minecraft" },
+      { name: "Call of Duty", image: "game7.jpg", link: "https://play.google.com/store/apps/details?id=com.example.cod" },
+      { name: "League of Legends", image: "game8.jpg", link: "https://play.google.com/store/apps/details?id=com.example.lol" },
+      { name: "Fortnite", image: "game9.jpg", link: "https://play.google.com/store/apps/details?id=com.example.fortnite" }
+    ];
 
-navBtns.forEach(btn => {  
-  btn.addEventListener('click', () => {  
-    const page = btn.getAttribute('data-page');  
-    loadPage(page);  
-  });  
-});  
+    const pages = {
+      home: `
+        <h2 class="text-2xl mb-4">เกมแนะนำ</h2>
+        <div class="carousel mb-4">
+          <a href="#" class="carousel-item"><img src="game1.jpg" class="rounded-xl" alt="Game 1"></a>
+          <a href="#" class="carousel-item"><img src="game2.jpg" class="rounded-xl" alt="Game 2"></a>
+          <a href="#" class="carousel-item"><img src="game3.jpg" class="rounded-xl" alt="Game 3"></a>
+        </div>
+      `,
+      search: `
+        <h2 class="text-2xl mb-4">ค้นหาเกม</h2>
+        <input type="text" id="searchInput" placeholder="พิมพ์ชื่อเกม..." class="w-full p-2 rounded-lg text-black mb-4" />
+        <div id="searchResults" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      `,
+      account: `
+        <h2 class="text-2xl mb-4">บัญชีของฉัน</h2>
+        <ul class="space-y-2">
+          <li class="bg-gray-900 p-3 rounded-lg">ที่อยู่ของฉัน</li>
+          <li class="bg-gray-900 p-3 rounded-lg">เพิ่มที่อยู่</li>
+          <li class="bg-gray-900 p-3 rounded-lg">ความช่วยเหลือ</li>
+          <li class="bg-gray-900 p-3 rounded-lg">ดาวน์โหลดแอป</li>
+          <li class="bg-gray-900 p-3 rounded-lg">อัปโหลดอื่นๆ</li>
+        </ul>
+      `
+    };
 
-// Default page  
-loadPage('home');
+    const contentEl = document.getElementById('page-content');
+    const navBtns = document.querySelectorAll('.nav-btn');
 
-</script></body>
+    function loadPage(page) {
+      contentEl.innerHTML = pages[page];
+      navBtns.forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`[data-page="${page}"]`).classList.add('active');
 
+      if (page === 'search') {
+        const resultsEl = document.getElementById('searchResults');
+        const inputEl = document.getElementById('searchInput');
+
+        const renderResults = (query = '') => {
+          const filtered = gameList.filter(game => game.name.toLowerCase().includes(query.toLowerCase()));
+          resultsEl.innerHTML = filtered.map(game => `
+            <div class="bg-gray-900 p-2 rounded-lg">
+              <img src="${game.image}" alt="${game.name}" class="w-full rounded mb-2">
+              <h3 class="text-center text-sm">${game.name}</h3>
+            </div>
+          `).join('');
+        };
+
+        inputEl.addEventListener('input', e => renderResults(e.target.value));
+        renderResults();
+      }
+    }
+
+    navBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const page = btn.getAttribute('data-page');
+        loadPage(page);
+      });
+    });
+
+    // Default page
+    loadPage('home');
+
+    // JavaScript to make the carousel slide automatically
+    let currentIndex = 0;
+    const carouselItems = document.querySelectorAll('.carousel-item');
+    const totalItems = carouselItems.length;
+
+    function changeSlide() {
+      // Hide all items
+      carouselItems.forEach(item => item.style.display = 'none');
+      // Show current item
+      carouselItems[currentIndex].style.display = 'block';
+
+      // Move to next item
+      currentIndex = (currentIndex + 1) % totalItems;
+    }
+
+    // Initialize the carousel
+    setInterval(changeSlide, 3000);  // Change image every 3 seconds
+    changeSlide();  // Start the carousel immediately
+  </script>
+</body>
 </html>
