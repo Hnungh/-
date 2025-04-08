@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ร้านค้าเกมมิ่ง</title>
+  <title>เว็บไซต์ดาวน์โหลดเกม</title>
   <link rel="manifest" href="manifest.json">
   <script src="sw-register.js" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -14,34 +14,58 @@
     .active {
       color: #9333ea;
     }
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+    }
+    .carousel::-webkit-scrollbar {
+      display: none;
+    }
+    .carousel-item {
+      flex: none;
+      width: 80%;
+      scroll-snap-align: start;
+      margin-right: 1rem;
+    }
   </style>
 </head>
 <body class="bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white min-h-screen flex flex-col">
   <!-- Header -->
   <header class="flex items-center justify-between p-4 bg-black shadow-md">
     <button id="menu-toggle" class="text-white text-2xl">☰</button>
-    <h1 class="text-xl font-bold">ร้านค้าเกมมิ่ง</h1>
-    <div></div>
+    <h1 class="text-xl font-bold text-center w-full">หน้าหลัก</h1>
+    <img src="logo.png" alt="Logo" class="w-8 h-8" />
   </header>  <!-- Sliding promo -->  <div class="bg-purple-900 text-center py-2 text-sm animate-pulse">
-    โปรโมชั่น! ลด 50% สินค้าใหม่ประจำเดือน
+    โปรโมชั่น! เกมใหม่มาแรง โหลดเลย
   </div>  <!-- Main Content -->  <main id="page-content" class="flex-1 p-4">
     <!-- Content will be injected here -->
   </main>  <!-- Bottom Nav -->  <nav class="bg-black flex justify-around p-2 border-t border-gray-700 text-sm">
-    <button class="nav-btn" data-page="home">หน้าหลัก</button>
-    <button class="nav-btn" data-page="orders">คำสั่งซื้อ</button>
-    <button class="nav-btn" data-page="account">บัญชี</button>
+    <button class="nav-btn flex flex-col items-center" data-page="home">
+      <img src="home-icon.png" alt="Home" class="w-6 h-6" />
+      <span class="text-xs">หน้าหลัก</span>
+    </button>
+    <button class="nav-btn flex flex-col items-center" data-page="search">
+      <img src="search-icon.png" alt="Search" class="w-6 h-6" />
+      <span class="text-xs">ค้นหา</span>
+    </button>
+    <button class="nav-btn flex flex-col items-center" data-page="account">
+      <img src="account-icon.png" alt="Account" class="w-6 h-6" />
+      <span class="text-xs">บัญชี</span>
+    </button>
   </nav>  <script>
     const pages = {
       home: `
-        <h2 class="text-2xl mb-4">สินค้าแนะนำ</h2>
-        <div class="grid grid-cols-2 gap-4">
-          <div class="bg-gray-900 p-4 rounded-xl shadow-lg">สินค้า A</div>
-          <div class="bg-gray-900 p-4 rounded-xl shadow-lg">สินค้า B</div>
+        <h2 class="text-2xl mb-4">เกมแนะนำ</h2>
+        <div class="carousel">
+          <a href="link1.html" class="carousel-item"><img src="game1.jpg" class="rounded-xl" alt="Game 1"></a>
+          <a href="link2.html" class="carousel-item"><img src="game2.jpg" class="rounded-xl" alt="Game 2"></a>
+          <a href="link3.html" class="carousel-item"><img src="game3.jpg" class="rounded-xl" alt="Game 3"></a>
         </div>
       `,
-      orders: `
-        <h2 class="text-2xl mb-4">รายการคำสั่งซื้อ</h2>
-        <p>ยังไม่มีคำสั่งซื้อ</p>
+      search: `
+        <h2 class="text-2xl mb-4">ค้นหาเกม</h2>
+        <input type="text" placeholder="พิมพ์ชื่อเกม..." class="w-full p-2 rounded-lg text-black" />
       `,
       account: `
         <h2 class="text-2xl mb-4">บัญชีของฉัน</h2>
@@ -50,6 +74,7 @@
           <li class="bg-gray-900 p-3 rounded-lg">เพิ่มที่อยู่</li>
           <li class="bg-gray-900 p-3 rounded-lg">ความช่วยเหลือ</li>
           <li class="bg-gray-900 p-3 rounded-lg">ดาวน์โหลดแอป</li>
+          <li class="bg-gray-900 p-3 rounded-lg">อัปโหลดอื่นๆ</li>
         </ul>
       `
     };
