@@ -38,7 +38,7 @@
     <img src="logo.png" alt="Logo" class="w-8 h-8" />
   </header>  <!-- Sliding promo -->  <div class="bg-purple-900 text-center py-2 text-sm animate-pulse">
     โปรโมชั่น! เกมใหม่มาแรง โหลดเลย
-  </div>  <!-- Main Content -->  <main id="page-content" class="flex-1 p-4">
+  </div>  <!-- Main Content -->  <main id="page-content" class="flex-1 p-4 overflow-auto">
     <!-- Content will be injected here -->
   </main>  <!-- Bottom Nav -->  <nav class="bg-black flex justify-around p-2 border-t border-gray-700 text-sm">
     <button class="nav-btn flex flex-col items-center" data-page="home">
@@ -54,18 +54,31 @@
       <span class="text-xs">บัญชี</span>
     </button>
   </nav>  <script>
+    const gameList = [
+      { name: "ROV", image: "game1.jpg" },
+      { name: "Free Fire", image: "game2.jpg" },
+      { name: "PUBG", image: "game3.jpg" },
+      { name: "Genshin Impact", image: "game4.jpg" },
+      { name: "Valorant", image: "game5.jpg" },
+      { name: "Minecraft", image: "game6.jpg" },
+      { name: "Call of Duty", image: "game7.jpg" },
+      { name: "League of Legends", image: "game8.jpg" },
+      { name: "Fortnite", image: "game9.jpg" }
+    ];
+
     const pages = {
       home: `
         <h2 class="text-2xl mb-4">เกมแนะนำ</h2>
-        <div class="carousel">
-          <a href="link1.html" class="carousel-item"><img src="game1.jpg" class="rounded-xl" alt="Game 1"></a>
-          <a href="link2.html" class="carousel-item"><img src="game2.jpg" class="rounded-xl" alt="Game 2"></a>
-          <a href="link3.html" class="carousel-item"><img src="game3.jpg" class="rounded-xl" alt="Game 3"></a>
+        <div class="carousel mb-4">
+          <a href="#" class="carousel-item"><img src="game1.jpg" class="rounded-xl" alt="Game 1"></a>
+          <a href="#" class="carousel-item"><img src="game2.jpg" class="rounded-xl" alt="Game 2"></a>
+          <a href="#" class="carousel-item"><img src="game3.jpg" class="rounded-xl" alt="Game 3"></a>
         </div>
       `,
       search: `
         <h2 class="text-2xl mb-4">ค้นหาเกม</h2>
-        <input type="text" placeholder="พิมพ์ชื่อเกม..." class="w-full p-2 rounded-lg text-black" />
+        <input type="text" id="searchInput" placeholder="พิมพ์ชื่อเกม..." class="w-full p-2 rounded-lg text-black mb-4" />
+        <div id="searchResults" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
       `,
       account: `
         <h2 class="text-2xl mb-4">บัญชีของฉัน</h2>
@@ -86,6 +99,24 @@
       contentEl.innerHTML = pages[page];
       navBtns.forEach(btn => btn.classList.remove('active'));
       document.querySelector(`[data-page="${page}"]`).classList.add('active');
+
+      if (page === 'search') {
+        const resultsEl = document.getElementById('searchResults');
+        const inputEl = document.getElementById('searchInput');
+
+        const renderResults = (query = '') => {
+          const filtered = gameList.filter(game => game.name.toLowerCase().includes(query.toLowerCase()));
+          resultsEl.innerHTML = filtered.map(game => `
+            <div class="bg-gray-900 p-2 rounded-lg">
+              <img src="${game.image}" alt="${game.name}" class="w-full rounded mb-2">
+              <h3 class="text-center text-sm">${game.name}</h3>
+            </div>
+          `).join('');
+        };
+
+        inputEl.addEventListener('input', e => renderResults(e.target.value));
+        renderResults();
+      }
     }
 
     navBtns.forEach(btn => {
