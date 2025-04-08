@@ -1,0 +1,158 @@
+
+<!DOCTYPE html><html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เว็บไซต์ดาวน์โหลดเกม</title>
+  <link rel="manifest" href="manifest.json">
+  <script src="sw-register.js" defer></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+    body { font-family: 'Orbitron', sans-serif; }
+    .active { color: #9333ea; }
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+    }
+    .carousel::-webkit-scrollbar { display: none; }
+    .carousel-item {
+      flex: none;
+      width: 80%;
+      scroll-snap-align: start;
+      margin-right: 1rem;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white min-h-screen flex flex-col relative">
+  <!-- Top Login Button -->
+  <div id="top-bar" class="absolute right-4 top-4">
+    <button id="login-btn" class="bg-purple-600 hover:bg-purple-700 text-white text-sm px-3 py-1 rounded">เข้าสู่ระบบ</button>
+  </div>
+
+  <!-- Header -->
+  <header class="flex items-center justify-between p-4 bg-black shadow-md">
+    <button id="menu-toggle" class="text-white text-2xl">☰</button>
+    <h1 class="text-xl font-bold text-center w-full">หน้าหลัก</h1>
+    <img src="logo.png" alt="Logo" class="w-8 h-8" />
+  </header>
+
+  <!-- Banner -->
+  <div class="bg-purple-900 text-center py-2 text-sm animate-pulse">โหลดเกมส์ เพื่อสร้างความสนุก!</div>
+
+  <!-- Main Content -->
+  <main id="page-content" class="flex-1 p-4 overflow-auto"></main>
+
+  <!-- Bottom Nav -->
+  <nav class="bg-black flex justify-around p-2 border-t border-gray-700 text-sm">
+    <button class="nav-btn flex flex-col items-center" data-page="home">
+      <img src="home-icon.png" alt="Home" class="w-6 h-6" />
+      <span class="text-xs">หน้าหลัก</span>
+    </button>
+    <button class="nav-btn flex flex-col items-center" data-page="search">
+      <img src="search-icon.png" alt="Search" class="w-6 h-6" />
+      <span class="text-xs">ค้นหา</span>
+    </button>
+    <button class="nav-btn flex flex-col items-center" data-page="account">
+      <img src="account-icon.png" alt="Account" class="w-6 h-6" />
+      <span class="text-xs">บัญชี</span>
+    </button>
+  </nav>
+
+  <script>
+    const gameList = [
+      { name: "ROV", image: "game1.jpg" },
+      { name: "Free Fire", image: "game2.jpg" },
+      { name: "PUBG", image: "game3.jpg" },
+      { name: "Genshin Impact", image: "game4.jpg" },
+      { name: "Valorant", image: "game5.jpg" },
+      { name: "Minecraft", image: "game6.jpg" },
+      { name: "Call of Duty", image: "game7.jpg" },
+      { name: "League of Legends", image: "game8.jpg" },
+      { name: "Fortnite", image: "game9.jpg" }
+    ];
+
+    let isLoggedIn = false;
+
+    const pages = {
+      home: `
+        <h2 class="text-2xl mb-4">เกมแนะนำ</h2>
+        <div class="carousel mb-4">
+          <a href="#" class="carousel-item"><img src="game1.jpg" class="rounded-xl" alt="Game 1"></a>
+          <a href="#" class="carousel-item"><img src="game2.jpg" class="rounded-xl" alt="Game 2"></a>
+          <a href="#" class="carousel-item"><img src="game3.jpg" class="rounded-xl" alt="Game 3"></a>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          ${gameList.slice(0, 4).map(game => `
+            <div class="bg-gray-900 p-2 rounded-lg">
+              <img src="${game.image}" alt="${game.name}" class="rounded mb-2">
+              <h3 class="text-center text-sm">${game.name}</h3>
+            </div>
+          `).join('')}
+        </div>
+      `,
+      search: `
+        <h2 class="text-2xl mb-4">ค้นหาเกม</h2>
+        <input type="text" id="searchInput" placeholder="พิมพ์ชื่อเกม..." class="w-full p-2 rounded-lg text-black mb-4" />
+        <div id="searchResults" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      `,
+      account: `
+        <h2 class="text-2xl mb-4">บัญชีของฉัน</h2>
+        <ul class="space-y-2">
+          <li class="bg-gray-900 p-3 rounded-lg">ที่อยู่ของฉัน</li>
+          <li class="bg-gray-900 p-3 rounded-lg">เพิ่มที่อยู่</li>
+          <li class="bg-gray-900 p-3 rounded-lg">ความช่วยเหลือ</li>
+          <li class="bg-gray-900 p-3 rounded-lg">ดาวน์โหลดแอป</li>
+        </ul>
+      `
+    };
+
+    const contentEl = document.getElementById('page-content');
+    const navBtns = document.querySelectorAll('.nav-btn');
+    const loginBtn = document.getElementById('login-btn');
+
+    function loadPage(page) {
+      contentEl.innerHTML = pages[page];
+      navBtns.forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`[data-page="\${page}"]`).classList.add('active');
+
+      if (page === 'search') {
+        const resultsEl = document.getElementById('searchResults');
+        const inputEl = document.getElementById('searchInput');
+        const renderResults = (query = '') => {
+          const filtered = gameList.filter(game => game.name.toLowerCase().includes(query.toLowerCase()));
+          resultsEl.innerHTML = filtered.map(game => \`
+            <div class="bg-gray-900 p-2 rounded-lg">
+              <img src="\${game.image}" alt="\${game.name}" class="w-full rounded mb-2">
+              <h3 class="text-center text-sm">\${game.name}</h3>
+            </div>
+          \`).join('');
+        };
+        inputEl.addEventListener('input', e => renderResults(e.target.value));
+        renderResults();
+      }
+
+      if (page === 'account') {
+        document.querySelectorAll('#page-content li').forEach(item => {
+          item.addEventListener('click', () => alert(\`คุณคลิก: \${item.textContent}\`));
+        });
+      }
+    }
+
+    navBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const page = btn.getAttribute('data-page');
+        loadPage(page);
+      });
+    });
+
+    loginBtn?.addEventListener('click', () => {
+      isLoggedIn = true;
+      loginBtn.style.display = 'none';
+    });
+
+    loadPage('home');
+  </script>
+</body>
+</html>
