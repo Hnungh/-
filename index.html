@@ -1,3 +1,80 @@
+<!DOCTYPE html><html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ร้านค้าเกมมิ่ง</title>
+  <link rel="manifest" href="manifest.json">
+  <script src="sw-register.js" defer></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+    body {
+      font-family: 'Orbitron', sans-serif;
+    }
+    .active {
+      color: #9333ea;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="flex items-center justify-between p-4 bg-black shadow-md">
+    <button id="menu-toggle" class="text-white text-2xl">☰</button>
+    <h1 class="text-xl font-bold">ร้านค้าเกมมิ่ง</h1>
+    <div></div>
+  </header>  <!-- Sliding promo -->  <div class="bg-purple-900 text-center py-2 text-sm animate-pulse">
+    โปรโมชั่น! ลด 50% สินค้าใหม่ประจำเดือน
+  </div>  <!-- Main Content -->  <main id="page-content" class="flex-1 p-4">
+    <!-- Content will be injected here -->
+  </main>  <!-- Bottom Nav -->  <nav class="bg-black flex justify-around p-2 border-t border-gray-700 text-sm">
+    <button class="nav-btn" data-page="home">หน้าหลัก</button>
+    <button class="nav-btn" data-page="orders">คำสั่งซื้อ</button>
+    <button class="nav-btn" data-page="account">บัญชี</button>
+  </nav>  <script>
+    const pages = {
+      home: `
+        <h2 class="text-2xl mb-4">สินค้าแนะนำ</h2>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-gray-900 p-4 rounded-xl shadow-lg">สินค้า A</div>
+          <div class="bg-gray-900 p-4 rounded-xl shadow-lg">สินค้า B</div>
+        </div>
+      `,
+      orders: `
+        <h2 class="text-2xl mb-4">รายการคำสั่งซื้อ</h2>
+        <p>ยังไม่มีคำสั่งซื้อ</p>
+      `,
+      account: `
+        <h2 class="text-2xl mb-4">บัญชีของฉัน</h2>
+        <ul class="space-y-2">
+          <li class="bg-gray-900 p-3 rounded-lg">ที่อยู่ของฉัน</li>
+          <li class="bg-gray-900 p-3 rounded-lg">เพิ่มที่อยู่</li>
+          <li class="bg-gray-900 p-3 rounded-lg">ความช่วยเหลือ</li>
+          <li class="bg-gray-900 p-3 rounded-lg">ดาวน์โหลดแอป</li>
+        </ul>
+      `
+    };
+
+    const contentEl = document.getElementById('page-content');
+    const navBtns = document.querySelectorAll('.nav-btn');
+
+    function loadPage(page) {
+      contentEl.innerHTML = pages[page];
+      navBtns.forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`[data-page="${page}"]`).classList.add('active');
+    }
+
+    navBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const page = btn.getAttribute('data-page');
+        loadPage(page);
+      });
+    });
+
+    // Default page
+    loadPage('home');
+  </script></body>
+</html>
+
 <!DOCTYPE html>
 <html lang="th">
 <head>
