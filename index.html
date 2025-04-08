@@ -1,4 +1,27 @@
-
+<div id="top-bar" class="absolute right-4 top-4">
+  <button id="login-btn" class="bg-purple-600 hover:bg-purple-700 text-white text-sm px-3 py-1 rounded">เข้าสู่ระบบ</button>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+  ${gameList.slice(0, 4).map(game => `
+    <div class="bg-gray-900 p-2 rounded-lg">
+      <img src="${game.image}" alt="${game.name}" class="rounded mb-2">
+      <h3 class="text-center text-sm">${game.name}</h3>
+    </div>
+  `).join('')}
+</div>
+let isLoggedIn = false;
+const loginBtn = document.getElementById('login-btn');
+loginBtn?.addEventListener('click', () => {
+  isLoggedIn = true;
+  loginBtn.style.display = 'none';
+});
+if (page === 'account') {
+  document.querySelectorAll('#page-content li').forEach(item => {
+    item.addEventListener('click', () => {
+      alert(`คุณคลิก: ${item.textContent}`);
+    });
+  });
+}
 <!DOCTYPE html><html lang="th">
 <head>
   <meta charset="UTF-8" />
