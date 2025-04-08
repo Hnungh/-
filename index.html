@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>เว็บไซต์ดาวน์โหลดเเอป</title>
+  <title>เว็บไซต์ดาวน์โหลดเกม</title>
   <link rel="manifest" href="manifest.json">
   <script src="sw-register.js" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -66,6 +66,15 @@
     .card a:hover {
       background-color: #7a27c9;
     }
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      .carousel-item {
+        width: 100%;
+      }
+      .carousel-inner {
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
 <body class="bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white min-h-screen flex flex-col">
@@ -78,17 +87,17 @@
   
   <!-- Carousel Section (แสดงเฉพาะในหน้า "หน้าหลัก") -->
   <div class="carousel-container p-4" id="carousel-container">
-    <h2 class="text-2xl mb-4 text-center สปอนเซอร์</h2>
+    <h2 class="text-2xl mb-4 text-center">เกมแนะนำ</h2>
     <div class="carousel">
       <div class="carousel-inner">
         <div class="carousel-item">
-          <a href="#"><img src="game1.jpg" class="rounded-xl w-full" alt="Game 1"></a>
+          <a href="https://play.google.com/store/apps/details?id=com.touch.earnbay.gp" target="_blank"><img src="game1.jpg" class="rounded-xl w-full" alt="Game 1"></a>
         </div>
         <div class="carousel-item">
-          <a href="#"><img src="game2.jpg" class="rounded-xl w-full" alt="Game 2"></a>
+          <a href="https://play.google.com/store/apps/details?id=com.colorlab.android" target="_blank"><img src="game2.jpg" class="rounded-xl w-full" alt="Game 2"></a>
         </div>
         <div class="carousel-item">
-          <a href="#"><img src="game3.jpg" class="rounded-xl w-full" alt="Game 3"></a>
+          <a href="https://play.google.com/store/apps/details?id=com.goodcut.android" target="_blank"><img src="game3.jpg" class="rounded-xl w-full" alt="Game 3"></a>
         </div>
       </div>
     </div>
@@ -117,24 +126,29 @@
 
   <script>
     const gameList = [
-      { name: "ROV", image: "game1.jpg" },
-      { name: "Free Fire", image: "game2.jpg" },
-      { name: "PUBG", image: "game3.jpg" },
-      { name: "Genshin Impact", image: "game4.jpg" },
-      { name: "Valorant", image: "game5.jpg" },
-      { name: "Minecraft", image: "game6.jpg" },
-      { name: "Call of Duty", image: "game7.jpg" },
-      { name: "League of Legends", image: "game8.jpg" },
-      { name: "Fortnite", image: "game9.jpg" }
+      { name: "ROV", image: "game1.jpgv1", link: "https://play.google.com/store/apps/details?id=com.garena.game.kgth" },
+      { name: "Free Fire", image: "game2.jpg", link: "https://example.com/freefire" },
+      { name: "PUBG", image: "game3.jpg", link: "https://example.com/pubg" },
+      { name: "Genshin Impact", image: "game4.jpg", link: "https://example.com/genshin" },
+      { name: "Valorant", image: "game5.jpg", link: "https://example.com/valorant" },
+      { name: "Minecraft", image: "game6.jpg", link: "https://example.com/minecraft" },
+      { name: "Call of Duty", image: "game7.jpg", link: "https://example.com/cod" },
+      { name: "League of Legends", image: "game8.jpg", link: "https://example.com/lol" },
+      { name: "Fortnite", image: "game9.jpg", link: "https://example.com/fortnite" }
     ];
 
     const pages = {
       home: `
         <h2 class="text-2xl mb-4">เกมยอดนิยม</h2>
-        <div class="carousel mb-4">
-          <a href="#" class="carousel-item"><img src="game1.jpg" class="rounded-xl" alt="Game 1"></a>
-          <a href="#" class="carousel-item"><img src="game2.jpg" class="rounded-xl" alt="Game 2"></a>
-          <a href="#" class="carousel-item"><img src="game3.jpg" class="rounded-xl" alt="Game 3"></a>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          ${gameList.map(game => `
+            <div class="card">
+              <a href="${game.link}" target="_blank">
+                <img src="${game.image}" alt="${game.name}" class="w-full rounded-xl mb-2">
+                <h3 class="text-xl font-semibold">${game.name}</h3>
+              </a>
+            </div>
+          `).join('')}
         </div>
       `,
       search: `
