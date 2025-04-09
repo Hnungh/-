@@ -51,6 +51,36 @@
     .card a:hover {
       background-color: #7a27c9;
     }
+
+    /* Fixed position for the navigation bar */
+    .navbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: black;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      z-index: 10;
+    }
+
+    .nav-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: white;
+      text-decoration: none;
+    }
+
+    .nav-btn img {
+      height: 24px;
+      margin-bottom: 5px;
+    }
+
+    .nav-btn span {
+      font-size: 12px;
+    }
   </style>
 </head>
 <body class="bg-gray-900 text-white min-h-screen flex flex-col">
@@ -73,26 +103,26 @@
     </div>
   </div>
 
-  <!-- Navigation -->
-  <nav class="bg-black flex justify-around p-2 border-t border-gray-700 text-sm sticky bottom-0 z-10">
-    <button class="nav-btn flex flex-col items-center" data-page="home">
-      <img src="home-icon.png" alt="Home" class="h-6 mb-1">
-      <span>หน้าหลัก</span>
-    </button>
-    <button class="nav-btn flex flex-col items-center" data-page="search">
-      <img src="search-icon.png" alt="Search" class="h-6 mb-1">
-      <span>ค้นหา</span>
-    </button>
-    <button class="nav-btn flex flex-col items-center" data-page="account">
-      <img src="account-icon.png" alt="Account" class="h-6 mb-1">
-      <span>บัญชี</span>
-    </button>
-  </nav>
-
   <!-- Main Content -->
   <main id="page-content" class="p-4 overflow-auto flex-1">
     <!-- Dynamic content loaded here -->
   </main>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <a href="#" class="nav-btn" data-page="home">
+      <img src="home-icon.png" alt="Home">
+      <span>หน้าหลัก</span>
+    </a>
+    <a href="#" class="nav-btn" data-page="search">
+      <img src="search-icon.png" alt="Search">
+      <span>ค้นหา</span>
+    </a>
+    <a href="#" class="nav-btn" data-page="account">
+      <img src="account-icon.png" alt="Account">
+      <span>บัญชี</span>
+    </a>
+  </nav>
 
   <script>
     const gameList = [
