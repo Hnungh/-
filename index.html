@@ -57,6 +57,7 @@
 
   <!-- Header -->
   <header class="flex items-center justify-between p-4 bg-black shadow-md sticky top-0 z-10">
+    <img src="logo.png" alt="Logo" class="h-10">
     <h1 class="text-xl font-bold w-full text-center">เว็บไซต์เกม</h1>
   </header>
 
@@ -75,12 +76,15 @@
   <!-- Navigation -->
   <nav class="bg-black flex justify-around p-2 border-t border-gray-700 text-sm sticky bottom-0 z-10">
     <button class="nav-btn flex flex-col items-center" data-page="home">
+      <img src="home-icon.png" alt="Home" class="h-6 mb-1">
       <span>หน้าหลัก</span>
     </button>
     <button class="nav-btn flex flex-col items-center" data-page="search">
+      <img src="search-icon.png" alt="Search" class="h-6 mb-1">
       <span>ค้นหา</span>
     </button>
     <button class="nav-btn flex flex-col items-center" data-page="account">
+      <img src="account-icon.png" alt="Account" class="h-6 mb-1">
       <span>บัญชี</span>
     </button>
   </nav>
@@ -120,8 +124,8 @@
       `,
       account: `
         <h2 class="text-2xl mb-4 text-center">บัญชีของฉัน</h2>
-        <div class="card"><a href="#">ตั้งค่าโปรไฟล์</a></div>
-        <div class="card"><a href="#">ออกจากระบบ</a></div>
+        <div class="card"><a href="https://help.example.com" target="_blank" class="text-white no-underline">ช่วยเหลือ</a></div>
+        <div class="card"><a href="https://donate.example.com" target="_blank" class="text-white no-underline">Donate/Support</a></div>
       `
     };
 
